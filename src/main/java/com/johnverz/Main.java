@@ -8,26 +8,28 @@ import java.util.Scanner;
 public class Main {
 
     // Constants for coffee menu and VAT
-    private static final String[] COFFEE_MENU = {"Espresso", "Latte", "Cappuccino", "Mocha"};
-    private static final double[] COFFEE_PRICES = {50.0, 70.0, 65.0, 80.0};
+    private static String[] CoffeeMenu = {"Espresso", "Latte", "Cappuccino", "Mocha"};
+    private static double[] CoffeePrices = {50.0, 70.0, 65.0, 80.0};
     private static final double VAT_RATE = 0.12;
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+
+        int[] orderCount = new int[CoffeeMenu.length];
         String receipt = "\n---- Coffee Order Receipt ----\n";
         double total = 0.0;
 
         while (true) {
             displayMenu();
 
-            System.out.print("Choose your coffee (1-" + COFFEE_MENU.length + ", or 0 to finish): ");
+            System.out.print("Choose your coffee (1-" + CoffeeMenu.length + ", or 0 to finish): ");
             int choice;
             try {
                 choice = Integer.parseInt(scanner.nextLine());
                 if (choice == 0) {
                     break;
                 }
-                if (choice < 1 || choice > COFFEE_MENU.length) {
+                if (choice < 1 || choice > CoffeeMenu.length) {
                     System.out.println("Invalid choice. Please try again.");
                     continue;
                 }
@@ -39,12 +41,19 @@ public class Main {
                     continue;
                 }
 
-                double itemTotal = COFFEE_PRICES[choice - 1] * quantity;
-                total += itemTotal;
-                receipt += String.format("%d x %s @ %.2f each = %.2f\n", quantity, COFFEE_MENU[choice - 1], COFFEE_PRICES[choice - 1], itemTotal);
+                orderCount[choice - 1] += quantity;
 
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input. Please enter a number.");
+            }
+        }
+
+        //Summarize the order
+        for(int i = 0; i < CoffeeMenu.length; i++) {
+            if(orderCount[i] > 0) {
+                double itemTotal = CoffeePrices[i] * orderCount[i];
+                total += itemTotal;
+                receipt += String.format("%d x %s @ %.2f each = %.2f\n", orderCount[i], CoffeeMenu[i], CoffeePrices[i], itemTotal);
             }
         }
 
@@ -68,8 +77,8 @@ public class Main {
      */
     private static void displayMenu() {
         System.out.println("\n--- Coffee Menu ---");
-        for (int i = 0; i < COFFEE_MENU.length; i++) {
-            System.out.println((i + 1) + ". " + COFFEE_MENU[i] + " - " + COFFEE_PRICES[i] + " PHP");
+        for (int i = 0; i < CoffeeMenu.length; i++) {
+            System.out.println((i + 1) + ". " + CoffeeMenu[i] + " - " + CoffeePrices[i] + " PHP");
         }
         System.out.println("0. Finish Order");
     }

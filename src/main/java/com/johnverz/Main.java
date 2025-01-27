@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class Main {
 
-    // Constants for coffee menu and VAT
+    // globa arrays and constants to make them available in any method (class-wide)
     private static String[] CoffeeMenu = {"Espresso", "Latte", "Cappuccino", "Mocha"};
     private static double[] CoffeePrices = {50.0, 70.0, 65.0, 80.0};
     private static final double VAT_RATE = 0.12;
